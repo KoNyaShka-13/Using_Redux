@@ -1,5 +1,5 @@
-import {useHttp} from '../../hooks/http.hook';
-import { useEffect } from 'react';
+import {useHttp} from '../../hooks/http.hook';//Чтобы сделать запрос
+import { useEffect } from 'react';//Чтобы сделать запрос вовремя
 import { useDispatch, useSelector } from 'react-redux';
 
 import { heroesFetching, heroesFetched, heroesFetchingError } from '../../actions';
@@ -12,7 +12,7 @@ import Spinner from '../spinner/Spinner';
 // Удаление идет и с json файла при помощи метода DELETE
 
 const HeroesList = () => {
-    const {heroes, heroesLoadingStatus} = useSelector(state => state);
+    const {heroes, heroesLoadingStatus} = useSelector(state => state);//Хук, вытягиваем кусок кода для работы
     const dispatch = useDispatch();
     const {request} = useHttp();
 
