@@ -1,6 +1,6 @@
 const initialState = {
     heroes: [],
-    heroesLoadingStatus: 'idle',
+    heroesLoadingStatus: 'idle',//Статус загрузки героев (по умолчанию 'idle' — бездействие)
     filters: []
 }
 
