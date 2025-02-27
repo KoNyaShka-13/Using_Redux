@@ -27,6 +27,16 @@ const HeroesList = () => {
         // eslint-disable-next-line
     }, []);
 
+    // Удаление персонажа по его id
+    const onDelete = useCallback(async (id) => {//У нас и мемоизация(useCallback) и безопасность при async/awit
+        try {
+            await request(`http://localhost:3001/heroes/${id}`, "DELETE");
+            dispatch(heroDeleted(id));
+        } catch (e) {
+            console.error("Ошибка при удалении персонажа", e);
+        }
+    }, [request]);
+
     if (heroesLoadingStatus === "loading") {
         return <Spinner/>;
     } else if (heroesLoadingStatus === "error") {
