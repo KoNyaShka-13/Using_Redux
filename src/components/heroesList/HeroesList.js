@@ -45,19 +45,30 @@ const HeroesList = () => {
 
     const renderHeroesList = (arr) => {
         if (arr.length === 0) {
-            return <h5 className="text-center mt-5">Героев пока нет</h5>
+            return <CSSTransition
+                        timeout={0}
+                        classNames={"hero"}>
+                <h5 className="text-center mt-5">Героев пока нет</h5>
+            </CSSTransition>
         }
 
         return arr.map(({id, ...props}) => {
-            return <HeroesListItem key={id} {...props}/>
+            return <CSSTransition
+                        key={id}
+                        timeout={500}
+                        classNames="hero">
+                <HeroesListItem key={id} {...props}/>
+            </CSSTransition>
         })
     }
 
-    const elements = renderHeroesList(heroes);
+    const elements = renderHeroesList(heroes);//Оборачиваем в TransitionGroup, чтобы работала анимация из CSSTransition
     return (
-        <ul>
+        <TransitionGroup component={"ul"}>
             {elements}
-        </ul>
+        </TransitionGroup>
+            
+        
     )
 }
 
