@@ -1,9 +1,9 @@
 import {useHttp} from '../../hooks/http.hook';//Чтобы сделать запрос
-import { useEffect } from 'react';//Чтобы сделать запрос вовремя
+import { useEffect, useCallback } from 'react';//Чтобы сделать запрос вовремя
 import { useDispatch, useSelector } from 'react-redux';
 import { CSSTransition, TransitionGroup} from 'react-transition-group';
 
-import { heroesFetching, heroesFetched, heroesFetchingError } from '../../actions';
+import { heroesFetching, heroesFetched, heroesFetchingError, heroDeleted } from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 import './HeroesList.scss';
@@ -14,7 +14,7 @@ import './HeroesList.scss';
 // Удаление идет и с json файла при помощи метода DELETE
 
 const HeroesList = () => {
-    const {heroes, heroesLoadingStatus} = useSelector(state => state);//Хук, вытягиваем кусок кода для работы
+    const {filteredHeroes, heroesLoadingStatus} = useSelector(state => state);//Хук, вытягиваем кусок кода для работы
     const dispatch = useDispatch();
     const {request} = useHttp();
 
@@ -36,6 +36,7 @@ const HeroesList = () => {
             console.error("Ошибка при удалении персонажа", e);
         }
     }, [request]);
+    
 
     if (heroesLoadingStatus === "loading") {
         return <Spinner/>;
@@ -57,12 +58,12 @@ const HeroesList = () => {
                         key={id}
                         timeout={500}
                         classNames="hero">
-                <HeroesListItem key={id} {...props}/>
+                <HeroesListItem  {...props} onDelete={() => onDelete(id)}/>
             </CSSTransition>
         })
     }
 
-    const elements = renderHeroesList(heroes);//Оборачиваем в TransitionGroup, чтобы работала анимация из CSSTransition
+    const elements = renderHeroesList(filteredHeroes);//Оборачиваем в TransitionGroup, чтобы работала анимация из CSSTransition
     return (
         <TransitionGroup component={"ul"}>
             {elements}
