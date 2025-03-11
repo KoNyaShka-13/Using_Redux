@@ -1,13 +1,10 @@
 const initialState = {
     heroes: [],
     heroesLoadingStatus: 'idle',// Статус загрузки героев (по умолчанию 'idle' — бездействие)
-    filters: [],
-    filtersLoadingStatus: 'idle',// Статус загрузки фильтров
-    activeFilter: 'all'// Активный фильтр (по умолчанию 'all' — все герои)
     
 }
 
-const reducer = (state = initialState, action) => {
+const heroes = (state = initialState, action) => {
     switch (action.type) {//Если action.type не соответствует ни одному из кейсов, возвращается текущее состояние (state).
         case 'HEROES_FETCHING':
             return {
@@ -28,30 +25,6 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 heroesLoadingStatus: 'error'
-            }
-        case 'FILTERS_FETCHING':
-            return {
-                ...state,
-                filtersLoadingStatus: 'loading'
-            }
-        case 'FILTERS_FETCHED':
-            return {
-                ...state,
-                filters: action.payload,//filters обновляется данными из action.payload (новый список фильтров)
-                filtersLoadingStatus: 'idle'
-            }
-        case 'FILTERS_FETCHING_ERROR':
-            return {
-                ...state,
-                filtersLoadingStatus: 'error'
-            }
-        case 'ACTIVE_FILTER_CHANGED':
-            return {
-                ...state,
-                activeFilter: action.payload,
-                //filteredHeroes: action.payload === 'all' ? //filteredHeroes обновляется в зависимости от нового активного фильтра: Если фильтр 'all', то filteredHeroes равен всему списку героев.Иначе фильтруются герои, у которых element совпадает с новым активным фильтром.
-                //                state.heroes :
-                //                state.heroes.filter(item => item.element === action.payload)
             }
         
         case 'HERO_CREATED':
@@ -82,4 +55,4 @@ const reducer = (state = initialState, action) => {
     }
 }
 
-export default reducer;
+export default heroes;

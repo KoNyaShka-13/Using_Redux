@@ -13,8 +13,15 @@ import './HeroesList.scss';
 // Усложненная задача:
 // Удаление идет и с json файла при помощи метода DELETE
 
-const HeroesList = () => {
-    const {filteredHeroes, heroesLoadingStatus} = useSelector(state => state);//Хук, вытягиваем кусок кода для работы
+const HeroesList = (props) => {
+    const filteredHeroes = useSelector(state => {
+        if (state.activeFilter === 'all') {
+            return state.heroes;
+        } else {
+            return state.heroes.filter(item => item.element === state.activeFilter)
+        }
+    })
+    const heroesLoadingStatus = useSelector(state => state.heroesLoadingStatus);//Хук, вытягиваем кусок кода для работы
     const dispatch = useDispatch();
     const {request} = useHttp();
 
@@ -36,7 +43,7 @@ const HeroesList = () => {
             console.error("Ошибка при удалении персонажа", e);
         }
     }, [request]);
-    
+
 
     if (heroesLoadingStatus === "loading") {
         return <Spinner/>;
