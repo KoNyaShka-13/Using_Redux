@@ -31,6 +31,7 @@ const filters = (state = initialState, action) => {
                 //                state.heroes :
                 //                state.heroes.filter(item => item.element === action.payload)
             }
+            default: return state
     }
 }
 

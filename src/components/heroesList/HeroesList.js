@@ -2,6 +2,7 @@ import {useHttp} from '../../hooks/http.hook';//Чтобы сделать зап
 import { useEffect, useCallback } from 'react';//Чтобы сделать запрос вовремя
 import { useDispatch, useSelector } from 'react-redux';
 import { CSSTransition, TransitionGroup} from 'react-transition-group';
+import { createSelector } from 'reselect'
 
 import { heroesFetching, heroesFetched, heroesFetchingError, heroDeleted } from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
@@ -14,11 +15,17 @@ import './HeroesList.scss';
 // Удаление идет и с json файла при помощи метода DELETE
 
 const HeroesList = (props) => {
+    //Такой вариант не подходит, так как он не оптимизирован
+    //const someState = useSelector(state => ({//В таком случае из-за хука при обновлении ввсе это будет перерисовываться
+    //    activeFilter: state.filters.activeFilter,
+    //    heroes: state.heroes.heroes
+    //}))
+
     const filteredHeroes = useSelector(state => {
-        if (state.activeFilter === 'all') {
-            return state.heroes;
+        if (state.filters.activeFilter === 'all') {
+            return state.heroes.heroes;
         } else {
-            return state.heroes.filter(item => item.element === state.activeFilter)
+            return state.heroes.heroes.filter(item => item.element === state.activeFilter)
         }
     })
     const heroesLoadingStatus = useSelector(state => state.heroesLoadingStatus);//Хук, вытягиваем кусок кода для работы
