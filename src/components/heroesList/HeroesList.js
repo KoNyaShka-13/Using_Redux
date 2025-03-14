@@ -14,20 +14,33 @@ import './HeroesList.scss';
 // Усложненная задача:
 // Удаление идет и с json файла при помощи метода DELETE
 
-const HeroesList = (props) => {
+const HeroesList = () => {
     //Такой вариант не подходит, так как он не оптимизирован
     //const someState = useSelector(state => ({//В таком случае из-за хука при обновлении ввсе это будет перерисовываться
     //    activeFilter: state.filters.activeFilter,
     //    heroes: state.heroes.heroes
     //}))
 
-    const filteredHeroes = useSelector(state => {
-        if (state.filters.activeFilter === 'all') {
-            return state.heroes.heroes;
-        } else {
-            return state.heroes.heroes.filter(item => item.element === state.activeFilter)
+    const filteredHeroesSelector = createSelector(//Оптимизация, при нажатии одной и той же кнопки фильтров было регулярное обновление фильтров, теперь один раз до того, пока фильтр не поеняется
+        (state) => state.filters.activeFilter,
+        (state) => state.heroes.heroes,
+        (filter,heroes) => {
+            if (filter === 'all') {
+                return heroes;
+            } else {
+                return heroes.filter(item => item.element === filter)
+            }
         }
-    })
+    );
+
+    //const filteredHeroes = useSelector(state => {
+    //    if (state.filters.activeFilter === 'all') {
+    //        return state.heroes.heroes;
+    //    } else {
+    //        return state.heroes.heroes.filter(item => item.element === state.activeFilter)
+    //    }
+    //})
+    const filteredHeroes = useSelector(filteredHeroesSelector);
     const heroesLoadingStatus = useSelector(state => state.heroesLoadingStatus);//Хук, вытягиваем кусок кода для работы
     const dispatch = useDispatch();
     const {request} = useHttp();
