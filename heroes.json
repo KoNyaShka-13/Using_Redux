@@ -17,12 +17,6 @@
       "name": "Морской герой",
       "description": "Как аквамен, но не из DC",
       "element": "water"
-    },
-    {
-      "id": "30556e1a-f0be-409c-bdcc-d7c3fadcf8a5",
-      "name": "Крутой перец",
-      "description": "ничего(",
-      "element": "fire"
     }
   ],
   "filters": [

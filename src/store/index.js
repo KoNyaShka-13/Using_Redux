@@ -1,4 +1,4 @@
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, compose } from 'redux';
 //import reducer from '../reducers';//Он уже не нужен,  так как из него все вынесли
 import heroes from '../reducers/heroes';
 import filters from '../reducers/filters';
@@ -19,8 +19,12 @@ const enhancer = (createStore) => (...args) => {//Преобразуем, что
       return store;
 }
 
-const store = createStore( combineReducers({heroes, filters}), enhancer);//Объединили 2 редьюсера 
-     //window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+const store = createStore( //Объединили 2 редьюсера 
+     combineReducers({heroes, filters}), compose(//compose нужен для того, чтобы можно было добавлять любое количество настроек и энхансеров
+          enhancer,//нужно сохранять порядок в расстановке
+          window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+     ));
+     //
      
 
 export default store;

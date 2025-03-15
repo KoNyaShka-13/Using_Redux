@@ -41,7 +41,7 @@ const HeroesList = () => {
     //    }
     //})
     const filteredHeroes = useSelector(filteredHeroesSelector);
-    const heroesLoadingStatus = useSelector(state => state.heroesLoadingStatus);//Хук, вытягиваем кусок кода для работы
+    const heroesLoadingStatus = useSelector(state => state.heroes.heroesLoadingStatus);//Хук, вытягиваем кусок кода для работы
     const dispatch = useDispatch();
     const {request} = useHttp();
 
