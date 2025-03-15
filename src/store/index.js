@@ -1,7 +1,16 @@
-import { createStore, combineReducers, compose } from 'redux';
+import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 //import reducer from '../reducers';//Он уже не нужен,  так как из него все вынесли
 import heroes from '../reducers/heroes';
 import filters from '../reducers/filters';
+
+const stingMiddleware = () => (next) => (action) => {//Расширяем функцию диспэтч
+     if (typeof action =='string') {
+          return next({
+               type: action
+          })
+     }
+     return next(action)
+};
 
 const enhancer = (createStore) => (...args) => {//Преобразуем, чтобы экшены становились объектами
      const store = createStore(...args);
@@ -20,10 +29,15 @@ const enhancer = (createStore) => (...args) => {//Преобразуем, что
 }
 
 const store = createStore( //Объединили 2 редьюсера 
-     combineReducers({heroes, filters}), compose(//compose нужен для того, чтобы можно было добавлять любое количество настроек и энхансеров
-          enhancer,//нужно сохранять порядок в расстановке
-          window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-     ));
+     combineReducers({heroes, filters}), 
+     compose(applyMiddleware(stingMiddleware),
+     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+     )
+          //compose(//compose нужен для того, чтобы можно было добавлять любое количество настроек и энхансеров
+          //enhancer,//нужно сохранять порядок в расстановке
+          //
+     //)
+     );
      //
      
 
