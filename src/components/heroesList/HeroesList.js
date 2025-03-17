@@ -51,7 +51,7 @@ const HeroesList = () => {
 
         
 
-        // eslint-disable-next-line
+        // eslint-disable-next-line  
     }, []);
 
     // Удаление персонажа по его id
@@ -62,7 +62,7 @@ const HeroesList = () => {
         } catch (e) {
             console.error("Ошибка при удалении персонажа", e);
         }
-    }, [request]);
+    }, [request,dispatch]);
 
 
     if (heroesLoadingStatus === "loading") {
