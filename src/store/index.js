@@ -1,10 +1,10 @@
-import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
-import { thunk as ReduxThunk } from 'redux-thunk';
+//import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
 //import reducer from '../reducers';//Он уже не нужен,  так как из него все вынесли
 import heroes from '../reducers/heroes';
 import filters from '../reducers/filters';
 
-const stingMiddleware = () => (next) => (action) => {//Расширяем функцию диспэтч
+const stringMiddleware = () => (next) => (action) => {//Расширяем функцию диспэтч
      if (typeof action =='string') {
           return next({
                type: action
@@ -29,15 +29,22 @@ const stingMiddleware = () => (next) => (action) => {//Расширяем фун
 //      return store;
 //}
 
-const store = createStore( //Объединили 2 редьюсера 
-     combineReducers({heroes, filters}), 
-     compose(applyMiddleware(ReduxThunk, stingMiddleware),
-     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-     )
+//const store = createStore( //Объединили 2 редьюсера 
+//     combineReducers({heroes, filters}), 
+//     compose(applyMiddleware(ReduxThunk, stingMiddleware),
+//     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+//     )
           //compose(//compose нужен для того, чтобы можно было добавлять любое количество настроек и энхансеров
           //enhancer,//нужно сохранять порядок в расстановке
           //
      //)
-     );
+//     );
      //
+
+const store = configureStore({
+     reducer: {heroes, filters},
+     middleware: getDefaultMiddleware => getDefaultMiddleware().concat(stringMiddleware),
+     devTools: process.env.NODE_ENV !== 'production',//Пока мы в режиме разработки, то дев тулс включен, в продакшене он отключается
+     
+})
 export default store;
