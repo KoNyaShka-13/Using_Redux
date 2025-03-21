@@ -30,14 +30,15 @@ export const heroesFetching = createAction('HEROES_FETCHING');
 //        payload: heroes
 //    }
 //}
-
 export const heroesFetched = createAction('HEROES_FETCHED');
 
-export const heroesFetchingError = () => {
-    return {
-        type: 'HEROES_FETCHING_ERROR'
-    }
-}
+//export const heroesFetchingError = () => {
+//    return {
+//        type: 'HEROES_FETCHING_ERROR'
+//    }
+//}
+export const heroesFetchingError = createAction('HEROES_FETCHING_ERROR')
+
 
 export const filtersFetching = () => {
     return {
@@ -75,16 +76,18 @@ export const activeFilterChanged = (filter) => {
 //    },1000)//Тайемр на 1 секунду
 //}
 
-export const heroCreated = (hero) => {
-    return {
-        type: 'HERO_CREATED',
-        payload: hero
-    }
-}
+//export const heroCreated = (hero) => {
+//    return {
+//        type: 'HERO_CREATED',
+//        payload: hero
+//    }
+//}
+export const heroCreated = createAction('HERO_CREATED');
 
-export const heroDeleted = (id) => {
-    return {
-        type: 'HERO_DELETED',
-        payload: id
-    }
-}
+//export const heroDeleted = (id) => {
+//    return {
+//        type: 'HERO_DELETED',
+//        payload: id
+//    }
+//}
+export const heroDeleted = createAction('HERO_DELETED');

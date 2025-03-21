@@ -16,9 +16,23 @@ const initialState = {
 
 const heroes =createReducer(initialState, builder => {//Билдек помогет строить компонент при помощи встроенных в него компонентов
     builder
-        .addCase(heroesFetchi, state => {//При помощи креате редюсер можно писать без принципа иммутабельности
+        .addCase(heroesFetching, state => {//При помощи креате редюсер можно писать без принципа иммутабельности
             state.heroesLoadingStatus = 'loading';//В итоге он будет иммутабельным
         })
+        .addCase(heroesFetched, (state, action) => {
+            state.heroesLoadingStatus = 'idle';
+            state.heroes = action.payload;//payload нужен для содержания фактических данных в объекте действия
+        })
+        .addCase(heroesFetchingError, state =>{
+            state.heroesLoadingStatus = 'error';
+        })
+        .addCase(heroCreated, (state, action) => {
+            state.heroes.push(action.payload);//Через пейлоад легче делать 
+        })
+        .addCase(heroDeleted, (state, action) => {
+            state.heroes = state.heroes.filter(item => item.id !== action.payload);
+        })
+        .addDefaultCase(() => {})
 })
 
 //const heroes = (state = initialState, action) => {
@@ -28,7 +42,7 @@ const heroes =createReducer(initialState, builder => {//Билдек помог�
 //                ...state,
 //                heroesLoadingStatus: 'loading'
 //            }
- //       case 'HEROES_FETCHED':
+//       case 'HEROES_FETCHED':
 //            return {
 //                ...state,
 //                heroes: action.payload,//heroes обновляется данными из action.payload (новый список героев)
@@ -42,7 +56,7 @@ const heroes =createReducer(initialState, builder => {//Билдек помог�
 //            return {
 //                ...state,
 //                heroesLoadingStatus: 'error'
- //           }
+//           }
 //        
 //        case 'HERO_CREATED':
 //            //Новый массив    
@@ -52,7 +66,7 @@ const heroes =createReducer(initialState, builder => {//Билдек помог�
 //                heroes: [...state.heroes, action.payload]
 //                //heroes: newCreatedHeroList,
 //                // Фильтруем новые данные по фильтру, который сейчас применяется
- //               //filteredHeroes: state.activeFilter === 'all' ? 
+//               //filteredHeroes: state.activeFilter === 'all' ? 
 //                //                newCreatedHeroList : 
 //                //                newCreatedHeroList.filter(item => item.element === state.activeFilter)
 //            }
