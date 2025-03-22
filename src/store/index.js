@@ -3,7 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 //import reducer from '../reducers';//Он уже не нужен,  так как из него все вынесли
 //import heroes from '../reducers/heroes';Старый вариант, если делать без toolkit createSlice
 import heroes from '../components/heroesList/heroesSlice';
-import filters from '../reducers/filters';
+import filters from '../components/heroesFilters/filtersSlice';
 
 const stringMiddleware = () => (next) => (action) => {//Расширяем функцию диспэтч
      if (typeof action =='string') {

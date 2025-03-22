@@ -1,16 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 //import { heroCreated, heroDeleted, heroesFetching, heroesFetchingError } from "../../actions";
 
-const inintialState = {
+const initialState = {
     heroes: [],
     heroesLoadingStatus: 'idle'
 }
 
 const heroesSlice = createSlice({
-    name: 'heroes',//Пространство имен
-    inintialState,
+    name: 'heroes',
+    initialState,
     reducers: {
-        heroesFetching: state => {state.heroesLoadingStatus = 'loading'},//Без всяких строк и сложностей подвязываем экшен креатор в виде левой стороны кода
+        heroesFetching: state => {state.heroesLoadingStatus = 'loading'},
         heroesFetched: (state, action) => {
             state.heroesLoadingStatus = 'idle';
             state.heroes = action.payload;

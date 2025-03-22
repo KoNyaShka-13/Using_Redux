@@ -3,7 +3,8 @@ import { useEffect } from 'react';//Чтобы сделать запрос во�
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
-import { fetchFilters, activeFilterChanged } from '../../actions';
+import { fetchFilters } from '../../actions';
+import { FilterChanged } from './filtersSlice'
 import Spinner from '../spinner/Spinner';
 
 const HeroesFilters = () => {
@@ -41,7 +42,7 @@ const HeroesFilters = () => {
                     key={name}
                     id={name}
                     className={btnClass}
-                    onClick={() => dispatch(activeFilterChanged(name))}
+                    onClick={() => dispatch(FilterChanged(name))}
                 >
                     {label}
                 </button>
