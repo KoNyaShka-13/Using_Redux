@@ -1,4 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {useHttp} from '../../hooks/http.hook';//Чтобы сделать запрос
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
 
 const initialState = {
     filters: [],
@@ -7,34 +9,53 @@ const initialState = {
     
 }
 
-const heroesSlice = createSlice({
+export const fetchFilters = createAsyncThunk(
+    'filters/fetchFilters',
+    () => {
+        const {request} = useHttp();
+        return request("http://localhost:3001/filters")
+    }
+)
+
+const filtersSlice = createSlice({
     name: 'filters',
     initialState,
     reducers: {
-        filtersFetching: state => {state.filtersLoadingStatus = 'loading'},
-        filtersFetched: (state, action) => {
-            state.filtersLoadingStatus = 'idle';
-            state.filters = action.payload;
-        },
-        filtersFetchingError: state => {
-            state.filtersLoadingStatus = 'error';
-        },
-        FilterChanged: (state, action) => {
+        //filtersFetching: state => {state.filtersLoadingStatus = 'loading'},
+        //filtersFetched: (state, action) => {
+        //    state.filtersLoadingStatus = 'idle';
+        //    state.filters = action.payload;
+        //},
+        //filtersFetchingError: state => {
+        //    state.filtersLoadingStatus = 'error';
+        //},
+        filtersChanged: (state, action) => {
             state.activeFilter = action.payload;
         }
         
-    }
+    },
+    extraReducers: (builder) => {
+            builder
+                .addCase(fetchFilters.pending, state => {state.filtersLoadingStatus = 'loading'})
+                .addCase(fetchFilters.fulfilled, (state, action) => {
+                    state.filtersLoadingStatus = 'idle';
+                    state.filters = action.payload;
+                })
+                .addCase(fetchFilters.rejected, state => {
+                    state.filtersLoadingStatus = 'error';
+                })
+                .addDefaultCase(() => {})
+        }
 });
 
-const {actions, reducer} = heroesSlice;//Выше настроили слайсер, а тут его разделили, чтобы редьюсер поместить в дальнейшем в главную функцию по созданию стора
+const {actions, reducer} = filtersSlice;//Выше настроили слайсер, а тут его разделили, чтобы редьюсер поместить в дальнейшем в главную функцию по созданию стора
 
 export default reducer;
-
 export const {
     filtersFetching,
     filtersFetched,
     filtersFetchingError,
-    FilterChanged
+    filtersChanged
 } = actions;
 
 

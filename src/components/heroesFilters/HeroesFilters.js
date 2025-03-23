@@ -3,8 +3,8 @@ import { useEffect } from 'react';//Чтобы сделать запрос во�
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
-import { fetchFilters } from '../../actions';
-import { FilterChanged } from './filtersSlice'
+import { fetchFilters, filtersChanged } from './filtersSlice';
+
 import Spinner from '../spinner/Spinner';
 
 const HeroesFilters = () => {
@@ -15,7 +15,7 @@ const HeroesFilters = () => {
 
     // Запрос на сервер для получения фильтров и последовательной смены состояния
     useEffect(() => {
-        dispatch(fetchFilters(request));   //Все делаем ерез общий диспатч, в котором все есть
+        dispatch(fetchFilters(request));   //Все делаем через общий диспатч, в котором все есть
         // eslint-disable-next-line
     }, []);
 
@@ -42,7 +42,7 @@ const HeroesFilters = () => {
                     key={name}
                     id={name}
                     className={btnClass}
-                    onClick={() => dispatch(FilterChanged(name))}
+                    onClick={() => dispatch(filtersChanged(name))}
                 >
                     {label}
                 </button>
