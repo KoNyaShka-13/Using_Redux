@@ -2,12 +2,12 @@ import {useHttp} from '../../hooks/http.hook';//Чтобы сделать зап
 import { useEffect, useCallback } from 'react';//Чтобы сделать запрос вовремя
 import { useDispatch, useSelector } from 'react-redux';
 import { CSSTransition, TransitionGroup} from 'react-transition-group';
-import { createSelector } from '@reduxjs/toolkit'
+//import { createSelector } from '@reduxjs/toolkit'
 //import { createSelector } from 'reselect'//Можно двумя способами
 
 //import { heroesFetching, heroesFetched, heroesFetchingError, heroDeleted } from '../../actions';
 //import { fetchHeroes } from '../../actions';
-import { heroDeleted, fetchHeroes } from './heroesSlice';
+import { heroDeleted, fetchHeroes, filteredHeroesSelector } from './heroesSlice';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 import './HeroesList.scss';
@@ -24,17 +24,7 @@ const HeroesList = () => {
     //    heroes: state.heroes.heroes
     //}))
 
-    const filteredHeroesSelector = createSelector(//Оптимизация, при нажатии одной и той же кнопки фильтров было регулярное обновление фильтров, теперь один раз до того, пока фильтр не поеняется
-        (state) => state.filters.activeFilter,
-        (state) => state.heroes.heroes,
-        (filter,heroes) => {
-            if (filter === 'all') {
-                return heroes;
-            } else {
-                return heroes.filter(item => item.element === filter)
-            }
-        }
-    );
+    
 
     //const filteredHeroes = useSelector(state => {
     //    if (state.filters.activeFilter === 'all') {
