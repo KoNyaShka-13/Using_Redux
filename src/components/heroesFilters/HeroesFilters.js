@@ -2,14 +2,17 @@ import {useHttp} from '../../hooks/http.hook';//Чтобы сделать зап
 import { useEffect } from 'react';//Чтобы сделать запрос вовремя
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
+import store from '../../store';
 
-import { fetchFilters, filtersChanged } from './filtersSlice';
+
+import { fetchFilters, filtersChanged, selectAll } from './filtersSlice';
 
 import Spinner from '../spinner/Spinner';
 
 const HeroesFilters = () => {
 
-    const {filters, filtersLoadingStatus, activeFilter} = useSelector(state => state.filters);
+    const {filtersLoadingStatus, activeFilter} = useSelector(state => state.filters);
+    const filters = selectAll(store.getState());
     const dispatch = useDispatch();
     const {request} = useHttp();
 
