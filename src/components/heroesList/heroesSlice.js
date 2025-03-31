@@ -5,7 +5,7 @@ import { createAsyncThunk, createSlice, createEntityAdapter, createSelector } fr
 
 const heroesAdapter = createEntityAdapter();//Эта функция должна вернуть объект, у которого будут свои методы, коллбэки и тп.
 
-const initialState = heroesAdapter.getInitialState({
+const initialState = heroesAdapter.getInitialState({//Получаем начальное состояние 
     heroesLoadingStatus: 'idle'
 });
 
